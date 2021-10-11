@@ -3,9 +3,26 @@
 # By @HadiDotSh
 # A lot of stuff need to be done..
 
+while [[ ! -z "$*" ]];do
+
+    if [[ "$1" == "-m" ]];then
+        shift
+        max=$1
+        shift
+
+    else
+        if [[ -z $path && -d $1 ]];then 
+            path="$1"
+        else
+            printf "\n\e[0;91mx \e[0m\e[1;77mnot understood the \"$1\" argument\e[0m" 
+            exit
+        fi
+        shift
+    fi
+    
+done
+[[ -z ${path} ]] && path=$(pwd) 
 tab=0
-clear
-[[ -z ${1} ]] && path=$(pwd) || path="${1}"
 cd $path
 printf "\e[1;90m$path\n│\n\e[0;0m"
 
@@ -25,6 +42,7 @@ function niceTab(){
 
 function tree(){
     local tab=$1
+    [[ $tab == $max ]] && continue
     local empty=$2
     shift
     shift
